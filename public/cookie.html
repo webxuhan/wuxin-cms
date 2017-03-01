@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>cookies</title>
+	<script src="framework/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+	<button>no cookie</button>
+	<button>cookie</button>
+	<script>
+		$(function(){
+			$("button").eq(0).click(function(){
+				$.post("/login",{
+					name:"wuxin"
+				},function(data){
+					alert(data);
+				});
+			});
+			$("button").eq(1).click(function(){
+				//在客户端创建cookie
+				document.cookie = "username=xuhan";
+				//每次请求时，请求信息中都会携带本地cookie
+				$.post("/login",{
+					name:"wuxin"
+				},function(data){
+					alert(data);
+				});
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+doctype html
+html
+	head
+		title #{title}
+		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport')
+		link(rel="stylesheet",href="/framework/bootstrap-3.3.0-dist/css/bootstrap.min.css")
+		link(rel="stylesheet",href="/framework/font-awesome/css/font-awesome.min.css")
+		link(rel="stylesheet",href="/stylesheets/stylesheets/backstage/index.css")
+		script(src='/framework/angular-1.4.0/angular.min.js')
+	body.login-page(ng-app="adminLogin" ng-controller="login")
+		div.login-box
+			div.login-logo
+				a(herf="/")
+					b Wuxin
+					b CMS
+			div.login-box-body
+				p 系统管理员登录
+				div(role="alert").alert.alert-danger.hide#errorInfo
+					i.fa.fa-exclamation-triangle
+					| 用户名或密码不匹配
+				form#loginForm
+					div.form-group.has-feedback
+						input(type="text" placeholder="请输入用户名").form-control
+						span(aria-hidden="true").glyphicon.glyphicon-user.form-control-feedback
+					div.form-group.has-feedback
+						input(type="password" placeholder="请输入密码").form-control
+						span(aria-hidden="true").glyphicon.glyphicon-lock.form-control-feedback
+					div.form-group
+						div.col-md-6
+							input(type="text" name="vnum" placeholder="请输入验证" required).form-control
+						span
+							img#vcode(src="/admin/vnum?"+Date.parse(new Date()))
+					div.row
+						div.col-xs-8
+							div.checkbox.icheck.hide
+								label
+									input(type="checkbox")
+									| Remember Me
+						div.col-xs-4
+							button(type="submit" disabled="disabled").btn.btn-primary.btn-block.btn-flat 登录
+		script(src="/framework/jquery-1.9.1.min.js")
+		script(src="/framework/bootstrap-3.3.0-dist/js/bootstrap.min.js")
+		script(type="text/javascript").
+			angular.module("adminLogin",[])
+				.controller("login",function($scope,$http){
+					//- 登录操作
+					$scope.processLogForm = function(isValid){
+						if(isValid){
+							$http({
+								method:'POST',
+								url:"/admin/doLogin",
+								data:$.param($scope.logFormData),// pass in data as strings
+								headers:{'Content-Type':'application/x-www-form-urlencoded'} //set the headers so angular passing info as form data(not request payload)
+							})
+							.success(function(data){
+								if(data === "success"){
+									window.location = "/admin/manage" 
+								}else{
+									//- 登录失败
+									$("#erroeInfo").removeClass('hide').text(data);
+									var newParams = Math.round(Math.random()*100)+"Date.parse(new Date())";
+									$('#vcode').attr("src",'/admin/vnum?'+newParams);
+								}
+							});
+						}
+						else{
+							alert("error");
+						}
+					}
+				})
+    			
+
+

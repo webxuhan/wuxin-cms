@@ -1,0 +1,55 @@
+doctype html
+html
+	head
+		meta(charset="utf8")
+		title #{siteInfo.title}
+		meta(content="width=device-width,initial-scale=1,user-scalable=no" name="viewport")
+		link(rel="stylesheet", href="/framework/bootstrap-3.3.0-dist/css/bootstrap.min.css")
+		link(rel="stylesheet", href="/framework/font-awesome/css/font-awesome.min.css")
+		//- 表格相关样式
+		link(rel="stylesheet", href="/framework/datatables/dataTables.bootstrap.css")
+		link(rel="stylesheet",href="/stylesheets/stylesheets/backstage/index.css")
+	body(ng-app="adminApp").skin-blue
+		div.wrapper
+			//- 公共头部
+			header.main-header
+				//- Logo
+				a(href="/admin/manage").logo
+					b Wuxin
+					| CMS
+				//- Header Navbar
+				nav(role="navigation").navbar.nav-static-top
+					//- Sidebar toggle button
+					a(href="#" data-toggle="offcanvas" role="button").sidebar-toggle
+						span.sr-only Toggle navigation
+					//- Navbar Right Menu
+					div.navbar-custom-menu
+							ul.nav.navbar-nav
+								//- User Account Menu
+								- if(adminlogined)
+								//- Notifications: style can be found in dropdown.less
+									li.dropdown.notifications-menu
+										a(href="#" data-toggle="dropdown").dropdown-toggle
+											i.fa.fa-bell-o
+											- if(adminNotice.totalCount>0)
+												span.label.label-warning #{adminNotice.totalCount}
+										ul.dropdown-menu
+											- if(adminNotices.totalCount>0)
+												li.header 您有 #{adminNotice.totalCount} 条提醒
+											- else
+												li.header 亲爱哒，暂无未读消息
+											li
+												//- inner menu: contains the actual data
+												ul.menu
+													 // -if(adminNotices.regNotices && adminNotices.regNotices.length)
+									li.dropdown.user.user-menu
+										//- Menu Toggle Button
+										a(href="#" data-toggle="dropdown").dropdown
+											img(alt="User Image" src=+#{adminUserInfo.logo})
+											span.hidden-xs#adminUserName #{adminUserInfo.userName}
+											input(type="hidden" value=+#{adminUserInfo._id})#adminId
+										ul.dropdown-menu
+											li.user-header
+												img(src="'"+#{adminUserInfo.logo}+"'", alt="User Image").img-circle
+
+

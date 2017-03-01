@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<script src="framework/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+	<h1>登录</h1>
+	<hr>
+	<form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+		username: <input type="text" name="username">	
+		<br>
+		password: <input type="password" name="password">
+		<br>
+		<input type="submit" value="登录">
+	</form>
+	<hr>
+	<button>post json</button>
+	<script>
+		$(function(){
+			$("button").eq(0).click(function(){
+				console.log("1");
+				$.ajax({
+					url:"login",
+					method:"post",
+					// contentType:"application/json",
+					data:{
+						name:"武鑫",
+						age:"18"
+					},
+					success:function(data){
+						alert(data);
+					}
+				});
+			});
+		})
+	</script>
+</body>
+</html>
